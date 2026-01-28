@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.example.learn_spring_security.entities.CustomUser;
 
 @Repository
-public interface UserRepository  extends JpaRepository<CustomUser, Long>{
+public interface UserRepository  extends JpaRepository<CustomUser, String>{
     Optional<CustomUser>findByUsername(String username);
 }
