@@ -1,0 +1,3 @@
+**Resources**
+
+- https://medium.com/@ansgar.nell/spring-boot-security-step-by-step-21ea836499f8
