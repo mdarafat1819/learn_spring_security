@@ -6,13 +6,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.learn_spring_security.repositories.UserRepository;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return User.builder()
-            .username("user")
-            .password("$2a$12$LxAfp7HYm95Q4N92lushWeK/uzZUTAsfCbWxSX45Za7rGMgjEoeFS")
-            .build();
+        return userRepository.findByUsername(username).orElseThrow(
+            ()-> new UsernameNotFoundException("user not found")
+        );
     }
 }
