@@ -3,6 +3,7 @@ package com.example.learn_spring_security.entities;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,5 +36,11 @@ public class CustomUser implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setPassword(String password) {
+       this.password = password;
     }
 }
