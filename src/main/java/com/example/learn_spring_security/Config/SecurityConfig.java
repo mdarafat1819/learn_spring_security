@@ -13,7 +13,7 @@ public class SecurityConfig {
     public UserDetailsService UserDetailsServic() {
         UserDetails user = User.builder()
             .username("user")
-            .password("{noop}ourpassword")
+            .password("{bcrypt}$2a$12$LxAfp7HYm95Q4N92lushWeK/uzZUTAsfCbWxSX45Za7rGMgjEoeFS")
             .build();
         return new InMemoryUserDetailsManager(user);
     }
