@@ -13,4 +13,8 @@ public class GreetingController {
     public String hello() {
         return "Hello World";
     }
+    @GetMapping("/admin")
+    public String admin() {
+        return "Well come to admin page";
+    }
 }

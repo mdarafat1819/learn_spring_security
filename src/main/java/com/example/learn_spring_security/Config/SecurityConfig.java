@@ -29,6 +29,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     "/v3/api-docs/**", 
                     "/swagger-ui.html").permitAll()
             .requestMatchers("/hello").authenticated()
+            .requestMatchers("/admin").hasRole("ADMIN")
             .anyRequest().denyAll()
         )
         .formLogin(form -> form

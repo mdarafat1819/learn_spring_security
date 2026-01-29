@@ -2,6 +2,7 @@ package com.example.learn_spring_security.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +20,11 @@ public class CustomUser implements UserDetails {
 
     private String password;
 
+    private String role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        return List.of(() -> "ROLE_" + role);
     }
     @Override
     public String getPassword() {
@@ -36,5 +39,13 @@ public class CustomUser implements UserDetails {
     }
     public void setPassword(String password) {
        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
