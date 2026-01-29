@@ -2,10 +2,16 @@ package com.example.learn_spring_security.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain; 
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.example.learn_spring_security.security.JwtFilter; 
 
 
 @Configuration
@@ -17,29 +23,29 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
+}
+
+
+  @Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                               JwtFilter jwtFilter) throws Exception {
 
     http
         .csrf(csrf -> csrf.disable())
+        .sessionManagement(session ->
+            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers( "/", 
-                    "/login", 
-                    "/register", 
-                    "/swagger-ui/**", 
-                    "/v3/api-docs/**", 
-                    "/swagger-ui.html").permitAll()
+            .requestMatchers("/api/auth/login", "/api/auth/register", "/").permitAll()
             .requestMatchers("/hello").authenticated()
             .requestMatchers("/admin").hasRole("ADMIN")
             .anyRequest().denyAll()
         )
-        .formLogin(form -> form
-        .loginPage("/login")
-        .loginProcessingUrl("/login")
-        .defaultSuccessUrl("/hello", true)
-        .failureUrl("/login?error=true")
-        .permitAll());
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
 }
-
 }
