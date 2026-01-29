@@ -16,11 +16,14 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void register(String username, String password) {
-        System.out.println("Password: " + password);
+    public boolean register(String username, String password) {
+        if (userRepository.existsByUsername(username)) {
+            return false;
+        }
         CustomUser user = new CustomUser();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+        return true;
     }
 }

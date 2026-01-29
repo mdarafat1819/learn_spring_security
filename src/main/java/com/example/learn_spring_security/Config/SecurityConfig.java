@@ -1,7 +1,5 @@
 package com.example.learn_spring_security.Config;
 
-import org.springframework.security.config.Customizer;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,7 +31,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/hello").authenticated()
             .anyRequest().denyAll()
         )
-        .formLogin(Customizer.withDefaults());
+        .formLogin(form -> form
+        .loginPage("/login")
+        .loginProcessingUrl("/login")
+        .defaultSuccessUrl("/hello", true)
+        .failureUrl("/login?error=true")
+        .permitAll());
 
     return http.build();
 }

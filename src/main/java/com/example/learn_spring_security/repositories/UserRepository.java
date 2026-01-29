@@ -10,4 +10,5 @@ import com.example.learn_spring_security.entities.CustomUser;
 @Repository
 public interface UserRepository  extends JpaRepository<CustomUser, String>{
     Optional<CustomUser>findByUsername(String username);
+    boolean existsByUsername(String username);
 }
