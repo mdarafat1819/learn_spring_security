@@ -39,7 +39,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http,
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/login", "/api/auth/register", "/").permitAll()
+            .requestMatchers("/api/auth/login", "/api/auth/register", "/",  "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html").permitAll()
             .requestMatchers("/hello").authenticated()
             .requestMatchers("/admin").hasRole("ADMIN")
             .anyRequest().denyAll()
